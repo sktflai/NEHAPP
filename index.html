@@ -88,7 +88,7 @@
       <!-- Notification Dropdown Menu -->
       <div id="noti-dropdown" class="hidden absolute right-0 top-11 bg-white border border-slate-200 rounded-2xl shadow-xl w-72 z-50 p-4 space-y-3">
         <div class="border-b border-slate-100 pb-2">
-          <h4 class="text-xs font-bold text-slate-800">期限警告</h4>
+          <h4 class="text-xs font-bold text-slate-800">期限警告 (3日以内)</h4>
           <p class="text-[10px] text-slate-400 mt-0.5">対応が必要なスケジュール対象一覧</p>
         </div>
         <div id="noti-list" class="space-y-2 max-h-48 overflow-y-auto text-xs">
@@ -288,7 +288,7 @@
 
     </section>
 
-    <!-- SCREEN: Stock Registration -->
+    <!-- SCREEN: Stock Registration (Form 1 for standard bread + Form 2 for discounted items) -->
     <section id="screen-register" class="screen-panel hidden space-y-4">
       
       <!-- FORM 1: Bread Expiry Registration -->
@@ -296,33 +296,34 @@
         <h3 class="text-sm font-bold text-slate-800 text-center">新規パン期限登録</h3>
         
         <div class="flex flex-col items-center space-y-4">
-          <div class="w-56 flex flex-col space-y-1">
+          <div class="w-64 flex flex-col space-y-1">
             <label class="block text-xs font-bold text-slate-500">パンの種類</label>
             <select id="reg-product-id" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-1 focus:ring-primary focus:border-primary"></select>
           </div>
-          <div class="w-56 flex flex-col space-y-1">
+          <div class="w-64 flex flex-col space-y-1">
             <label class="block text-xs font-bold text-slate-500">消費/賞味期限</label>
             <input type="date" id="reg-expiry" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-1 focus:ring-primary focus:border-primary">
           </div>
-          <button onclick="submitStockRegistration()" class="w-56 bg-primary hover:bg-primary-600 text-white font-bold py-3 rounded-xl text-sm shadow-sm mt-2">
+          <button onclick="submitStockRegistration()" class="w-64 bg-primary hover:bg-primary-600 text-white font-bold py-3 rounded-xl text-sm shadow-sm mt-2">
             パンの期限を登録
           </button>
         </div>
       </div>
 
-      <!-- FORM 2: Already Discounted Stocks -->
+      <!-- FORM 2: Already Discounted Stocks (Non-Pan Category) -->
       <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
         <h3 class="text-sm font-bold text-slate-800 text-center">値下げ商品の新規登録</h3>
         <p class="text-[10px] text-slate-400 text-center max-w-xs mx-auto">
           すでに値下げ（25%引または50%引）されている一般食品や飲料等の期限を登録します。
         </p>
 
+        <!-- Symmetrical alignment -->
         <div class="flex flex-col items-center space-y-3.5">
-          <div class="w-56 flex flex-col space-y-1">
+          <div class="w-64 flex flex-col space-y-1">
             <label class="block text-xs font-bold text-slate-500">カスタム商品名</label>
             <input type="text" id="reg-disc-name" placeholder="例: ポテトチップス" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-1 focus:ring-primary focus:border-primary">
           </div>
-          <div class="w-56 flex flex-col space-y-1">
+          <div class="w-64 flex flex-col space-y-1">
             <label class="block text-xs font-bold text-slate-500">カテゴリー</label>
             <select id="reg-disc-cat" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-1 focus:ring-primary focus:border-primary">
               <option value="一般食品">一般食品</option>
@@ -331,18 +332,18 @@
               <option value="その他">その他</option>
             </select>
           </div>
-          <div class="w-56 flex flex-col space-y-1">
+          <div class="w-64 flex flex-col space-y-1">
             <label class="block text-xs font-bold text-slate-500">現在の値下げ区分</label>
             <select id="reg-disc-rate" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-1 focus:ring-primary focus:border-primary">
               <option value="25">25%引 (期限10日前移行)</option>
               <option value="50">50%引 (期限2日前廃棄)</option>
             </select>
           </div>
-          <div class="w-56 flex flex-col space-y-1">
+          <div class="w-64 flex flex-col space-y-1">
             <label class="block text-xs font-bold text-slate-500">消費/賞味期限</label>
             <input type="date" id="reg-disc-expiry" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-1 focus:ring-primary focus:border-primary">
           </div>
-          <button onclick="submitDiscountRegistration()" class="w-56 bg-primary hover:bg-primary-600 text-white font-bold py-3 rounded-xl text-sm shadow-sm mt-2">
+          <button onclick="submitDiscountRegistration()" class="w-64 bg-primary hover:bg-primary-600 text-white font-bold py-3 rounded-xl text-sm shadow-sm mt-2">
             値下げ商品を登録
           </button>
         </div>
@@ -576,7 +577,7 @@
       return `${year}-${month}-${day}`;
     }
 
-    // Default mock items relative to June 6, 2026
+    // Default mock items relative to June 7, 2026
     function getMockInventory() {
       return [
         { id: "mock-1", productId: 1, productName: "つぶあん", expiryDate: getFormattedDate(2), status: 'active', currentQty: null, type: 'bread' }, // 2 days left
@@ -812,9 +813,38 @@
     let wizardActionsResult = []; 
 
     function loadInventory() {
+      // Tweak Implementation: Audit discount transitions based on history before loading local storage models (Double-Enforced Protection)
+      auditDiscountTransitions();
       activeInventory = JSON.parse(localStorage.getItem(STORAGE_KEY_INVENTORY)) || [];
       renderDashboardSummary();
       calculateNotifications();
+    }
+
+    // Double-enforced history audit to dynamically transition active discounted schedules (25% -> 50%)
+    function auditDiscountTransitions() {
+      const inventory = JSON.parse(localStorage.getItem(STORAGE_KEY_INVENTORY)) || [];
+      const history = JSON.parse(localStorage.getItem(STORAGE_KEY_HISTORY)) || [];
+      let stateChanged = false;
+
+      inventory.forEach(inv => {
+        if (inv.type === 'discounted' && parseInt(inv.discountRate) === 25) {
+          // Scan permanent history logs for any "バックヤード移動" registered for this product
+          const hasLoggedMoveAction = history.some(log => {
+            return log.productName && 
+                   log.productName.startsWith(inv.productName) && 
+                   log.action === 'バックヤード移動';
+          });
+
+          if (hasLoggedMoveAction) {
+            inv.discountRate = "50";
+            stateChanged = true;
+          }
+        }
+      });
+
+      if (stateChanged) {
+        localStorage.setItem(STORAGE_KEY_INVENTORY, JSON.stringify(inventory));
+      }
     }
 
     function renderDashboardSummary() {
@@ -1596,10 +1626,10 @@
       const updatedInventory = [];
       
       activeInventory.forEach(inv => {
-        // Match today's action record
+        // Match today's action record by ID
         let actionRecord = wizardActionsResult.find(res => res.id === inv.id);
         
-        // Fail-safe fallback to productName matching if ID reference mismatches (e.g. cloned batches)
+        // Fail-safe fallback to productName matching if ID reference mismatches (e.g. cloned/restored batches)
         if (!actionRecord && inv.type === 'discounted') {
           actionRecord = wizardActionsResult.find(res => {
             return res.productName && res.productName.startsWith(inv.productName);
@@ -2053,7 +2083,7 @@
       renderRegisterActiveList();
     }
 
-    // --- 17. Backup & Restore Data Engine (Tweak Implemented) ---
+    // --- 17. Backup & Restore Data Engine ---
     function exportBackupData() {
       const db = {
         inventory: JSON.parse(localStorage.getItem(STORAGE_KEY_INVENTORY)) || [],
