@@ -7,7 +7,7 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    // Extend Tailwind to support the brand theme color #E4007F
+    // Extend Tailwind to support the custom brand theme color #E4007F
     tailwind.config = {
       theme: {
         extend: {
@@ -120,7 +120,7 @@
         <span>本日の作業</span>
       </button>
 
-      <button onclick="switchScreen('register')" class="nav-link w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left font-semibold transition-colors text-slate-600 hover:bg-slate-100" data-screen="register">
+      <button onclick="switchScreen('register')" class="nav-link w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left font-semibold transition-colors text-slate-650 hover:bg-slate-100" data-screen="register">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
         </svg>
@@ -296,15 +296,15 @@
         <h3 class="text-sm font-bold text-slate-800 text-center">新規パン期限登録</h3>
         
         <div class="flex flex-col items-center space-y-4">
-          <div class="w-64 flex flex-col space-y-1">
+          <div class="w-56 flex flex-col space-y-1">
             <label class="block text-xs font-bold text-slate-500">パンの種類</label>
             <select id="reg-product-id" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-1 focus:ring-primary focus:border-primary"></select>
           </div>
-          <div class="w-64 flex flex-col space-y-1">
+          <div class="w-56 flex flex-col space-y-1">
             <label class="block text-xs font-bold text-slate-500">消費/賞味期限</label>
             <input type="date" id="reg-expiry" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-1 focus:ring-primary focus:border-primary">
           </div>
-          <button onclick="submitStockRegistration()" class="w-64 bg-primary hover:bg-primary-600 text-white font-bold py-3 rounded-xl text-sm shadow-sm mt-2">
+          <button onclick="submitStockRegistration()" class="w-56 bg-primary hover:bg-primary-600 text-white font-bold py-3 rounded-xl text-sm shadow-sm mt-2">
             パンの期限を登録
           </button>
         </div>
@@ -318,11 +318,11 @@
         </p>
 
         <div class="flex flex-col items-center space-y-3.5">
-          <div class="w-64 flex flex-col space-y-1">
+          <div class="w-56 flex flex-col space-y-1">
             <label class="block text-xs font-bold text-slate-500">カスタム商品名</label>
             <input type="text" id="reg-disc-name" placeholder="例: ポテトチップス" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-1 focus:ring-primary focus:border-primary">
           </div>
-          <div class="w-64 flex flex-col space-y-1">
+          <div class="w-56 flex flex-col space-y-1">
             <label class="block text-xs font-bold text-slate-500">カテゴリー</label>
             <select id="reg-disc-cat" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-1 focus:ring-primary focus:border-primary">
               <option value="一般食品">一般食品</option>
@@ -331,18 +331,18 @@
               <option value="その他">その他</option>
             </select>
           </div>
-          <div class="w-64 flex flex-col space-y-1">
+          <div class="w-56 flex flex-col space-y-1">
             <label class="block text-xs font-bold text-slate-500">現在の値下げ区分</label>
             <select id="reg-disc-rate" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-1 focus:ring-primary focus:border-primary">
               <option value="25">25%引 (期限10日前移行)</option>
               <option value="50">50%引 (期限2日前廃棄)</option>
             </select>
           </div>
-          <div class="w-64 flex flex-col space-y-1">
+          <div class="w-56 flex flex-col space-y-1">
             <label class="block text-xs font-bold text-slate-500">消費/賞味期限</label>
             <input type="date" id="reg-disc-expiry" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-1 focus:ring-primary focus:border-primary">
           </div>
-          <button onclick="submitDiscountRegistration()" class="w-64 bg-primary hover:bg-primary-600 text-white font-bold py-3 rounded-xl text-sm shadow-sm mt-2">
+          <button onclick="submitDiscountRegistration()" class="w-56 bg-primary hover:bg-primary-600 text-white font-bold py-3 rounded-xl text-sm shadow-sm mt-2">
             値下げ商品を登録
           </button>
         </div>
@@ -365,7 +365,7 @@
         <div class="flex items-center justify-between px-1">
           <button onclick="shiftMonth(-1)" class="p-2 text-slate-600 hover:bg-slate-100 rounded-lg">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-7="7" d="M15 19l-7-7 7-7"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
           </button>
           <h3 id="calendar-month-year" class="font-bold text-slate-800 tracking-wider">2026年 6月</h3>
@@ -407,7 +407,7 @@
       </div>
     </section>
 
-    <!-- SCREEN: History View -->
+    <!-- SCREEN: History View (Short Aligned Date Range Selector) -->
     <section id="screen-history" class="screen-panel hidden space-y-4">
       <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
         <div class="flex items-center justify-between">
@@ -451,7 +451,7 @@
       <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
         <h3 class="text-sm font-bold text-slate-800">データバックアップ・移行ツール</h3>
         <p class="text-xs text-slate-500 leading-relaxed">
-          iPhoneやAndroidの「ホーム画面に追加」を行うと、通常のSafari/Chromeブラウザとは保存エリアが分離されるためデータが引き継がれません。ここでデータを手動移行（移行）できます。
+          iPhoneやAndroidの「ホーム画面に追加」を行うと、通常のSafari/Chromeブラウザとは保存エリアが分離されるためデータが引き継がれません。ここでデータを手動移行できます。
         </p>
 
         <div class="space-y-3">
@@ -583,7 +583,7 @@
         { id: "mock-2", productId: 3, productName: "シナモン", expiryDate: getFormattedDate(5), status: 'active', currentQty: null, type: 'bread' }, // 5 days left
         { id: "mock-3", productId: 7, productName: "塩バター", expiryDate: getFormattedDate(0), status: 'active', currentQty: null, type: 'bread' }, // 0 days left
         
-        // Mock non-pan already discounted product (25% off expiring in 10 days - triggers move alerts on 6/8)
+        // Mock non-pan already discounted product (25% off expiring in 10 days)
         { id: "mock-disc-1", productName: "おつまみ豆菓子", category: "お菓子", discountRate: "25", expiryDate: getFormattedDate(10), status: 'active', currentQty: null, type: 'discounted' },
         // Mock non-pan already discounted product (50% off expiring in 2 days)
         { id: "mock-disc-2", productName: "有機ココア飲料", category: "飲料", discountRate: "50", expiryDate: getFormattedDate(2), status: 'active', currentQty: null, type: 'discounted' }
@@ -767,9 +767,9 @@
       inventory.forEach(item => {
         if (item.status !== 'active' || item.type !== 'discounted') return;
         const days = getDaysRemaining(item.expiryDate);
-        if (item.discountRate === "25" && days <= 10) {
+        if (parseInt(item.discountRate) === 25 && days <= 10) {
           warningItems.push({ name: `${item.productName} (25%引)`, info: `バックヤード移動目安`, days: days });
-        } else if (item.discountRate === "50" && days <= 2) {
+        } else if (parseInt(item.discountRate) === 50 && days <= 2) {
           warningItems.push({ name: `${item.productName} (50%引)`, info: `廃棄目安`, days: days });
         }
       });
@@ -869,7 +869,7 @@
           let targetMsg = "";
           let badgeStyle = "text-slate-500 bg-slate-100";
 
-          if (item.discountRate === "25") {
+          if (parseInt(item.discountRate) === 25) {
             const targetDays = days - 10;
             if (targetDays <= 0) {
               targetMsg = "バックヤード移動対象！";
@@ -878,7 +878,7 @@
               targetMsg = `移動まで あと ${targetDays} 日`;
               badgeStyle = "text-amber-600 bg-amber-50 font-bold";
             }
-          } else if (item.discountRate === "50") {
+          } else if (parseInt(item.discountRate) === 50) {
             const targetDays = days - 2;
             if (targetDays <= 0) {
               targetMsg = "廃棄処分対象！";
@@ -1185,7 +1185,7 @@
         if (!matchedItem) return { state: 'healthy', batch: null, days: 999 };
         const days = getDaysRemaining(matchedItem.expiryDate);
 
-        if (matchedItem.discountRate === '25') {
+        if (parseInt(matchedItem.discountRate) === 25) {
           if (days <= 0) {
             return { state: 'disposal', batch: matchedItem, days: days };
           } else if (days <= 10) {
@@ -1197,7 +1197,7 @@
           } else {
             return { state: 'healthy', batch: matchedItem, days: days };
           }
-        } else if (matchedItem.discountRate === '50') {
+        } else if (parseInt(matchedItem.discountRate) === 50) {
           if (days <= 2) {
             return { state: 'disposal_50_due', batch: matchedItem, days: days };
           } else if (days <= 5) {
@@ -1596,15 +1596,26 @@
       const updatedInventory = [];
       
       activeInventory.forEach(inv => {
-        const actionRecord = wizardActionsResult.find(res => res.id === inv.id);
+        // Match today's action record
+        let actionRecord = wizardActionsResult.find(res => res.id === inv.id);
+        
+        // Fail-safe fallback to productName matching if ID reference mismatches (e.g. cloned batches)
+        if (!actionRecord && inv.type === 'discounted') {
+          actionRecord = wizardActionsResult.find(res => {
+            return res.productName && res.productName.startsWith(inv.productName);
+          });
+        }
+
         if (actionRecord) {
           const isFinished = (actionRecord.action === '廃棄' || actionRecord.action === '品切れ');
           if (!isFinished) {
             let updatedRate = inv.discountRate;
-            // Auto-upgrade 25% off items to 50% off once moved to the backroom
-            if (inv.type === 'discounted' && inv.discountRate === "25" && actionRecord.action === 'バックヤード移動') {
+            
+            // Auto-upgrade 25% off custom items to 50% off once moved to the backroom
+            if (inv.type === 'discounted' && parseInt(inv.discountRate) === 25 && actionRecord.action === 'バックヤード移動') {
               updatedRate = "50";
             }
+            
             updatedInventory.push({
               ...inv,
               currentQty: actionRecord.newQty, 
@@ -1780,12 +1791,12 @@
           }
         } else {
           // --- DISCOUNTED RULES ---
-          if (item.discountRate === "25") {
+          if (parseInt(item.discountRate) === 25) {
             const moveDate = getOffsetDateString(item.expiryDate, -10); // E-10 is move day
             if (moveDate === dateStr) {
               schedules.push({ type: 'backroom', productName: `${item.productName} (値下げ25%)`, qty: item.currentQty, desc: 'バックヤード移動予定' });
             }
-          } else if (item.discountRate === "50") {
+          } else if (parseInt(item.discountRate) === 50) {
             const disposalDate = getOffsetDateString(item.expiryDate, -2); // E-2 is disposal day
             if (disposalDate === dateStr) {
               schedules.push({ type: 'disposal', productName: `${item.productName} (値下げ50%)`, qty: item.currentQty, desc: '夜間廃棄 予定' });
