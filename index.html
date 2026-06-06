@@ -88,7 +88,7 @@
       <!-- Notification Dropdown Menu -->
       <div id="noti-dropdown" class="hidden absolute right-0 top-11 bg-white border border-slate-200 rounded-2xl shadow-xl w-72 z-50 p-4 space-y-3">
         <div class="border-b border-slate-100 pb-2">
-          <h4 class="text-xs font-bold text-slate-800">期限警告</h4>
+          <h4 class="text-xs font-bold text-slate-800">期限警告 (3日以内)</h4>
           <p class="text-[10px] text-slate-400 mt-0.5">対応が必要なスケジュール対象一覧</p>
         </div>
         <div id="noti-list" class="space-y-2 max-h-48 overflow-y-auto text-xs">
@@ -288,7 +288,7 @@
 
     </section>
 
-    <!-- SCREEN: Stock Registration -->
+    <!-- SCREEN: Stock Registration (Form 1 for standard bread + Form 2 for discounted items) -->
     <section id="screen-register" class="screen-panel hidden space-y-4">
       
       <!-- FORM 1: Bread Expiry Registration -->
@@ -336,7 +336,7 @@
           <div class="w-64 flex flex-col space-y-1">
             <label class="block text-xs font-bold text-slate-500">現在の値下げ区分</label>
             <select id="reg-disc-rate" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-1 focus:ring-primary focus:border-primary">
-              <option value="25">25%引 (期限10日前移行)</option>
+              <option value="25">25%引 (期限9日前移行)</option>
               <option value="50">50%引 (期限2日前廃棄)</option>
             </select>
           </div>
@@ -444,45 +444,9 @@
 
     <!-- SCREEN: Settings -->
     <section id="screen-settings" class="screen-panel hidden space-y-4">
-      
-      <!-- App Reset Zone -->
       <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
         <h2 class="text-lg font-bold text-slate-800">アプリ設定</h2>
-        <p class="text-sm text-slate-600">ローカルストレージの管理や、初期化処理を実行します。</p>
-      </div>
-
-      <!-- BOOKMARK STANDALONE MIGRATION TOOL (New Feature) -->
-      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-        <div class="border-b border-slate-100 pb-2">
-          <h3 class="text-sm font-bold text-slate-800 flex items-center">
-            <svg class="w-4 h-4 mr-1.5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
-            データバックアップ・移行ツール
-          </h3>
-          <p class="text-[10px] text-slate-400 mt-1 leading-relaxed">
-            iPhoneやAndroidの「ホーム画面に追加」を行うと、通常のSafari/Chromeブラウザとは保存エリアが分離されるためデータが引き継がれません。ここでデータを手動移行できます。
-          </p>
-        </div>
-
-        <div class="space-y-3 text-xs">
-          <!-- Export -->
-          <div class="space-y-1 bg-slate-50 p-3 border border-slate-200 rounded-xl">
-            <span class="font-bold text-slate-700 block">① バックアップコードの書き出し</span>
-            <p class="text-[10px] text-slate-400 mb-2">現在ブラウザに保存されているデータコードを作成します。</p>
-            <button onclick="exportBackupData()" class="bg-primary hover:bg-primary-600 text-white font-bold px-3 py-1.5 rounded-lg w-full text-xs shadow-sm">
-              バックアップコードを生成してコピー
-            </button>
-          </div>
-
-          <!-- Import -->
-          <div class="space-y-2 bg-slate-50 p-3 border border-slate-200 rounded-xl">
-            <span class="font-bold text-slate-700 block">② データのインポート（復元）</span>
-            <p class="text-[10px] text-slate-400">書き出したコピーコードをここに貼り付け、ホーム画面アプリ側で復元します。</p>
-            <textarea id="import-data-textarea" placeholder="ここにバックアップコードを貼り付けてください..." class="w-full bg-white border border-slate-350 border-slate-300 rounded-lg p-2 font-mono text-[9px] h-16 focus:outline-none focus:border-primary"></textarea>
-            <button onclick="importBackupData()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold px-3 py-1.5 rounded-lg w-full text-xs shadow-sm">
-              データを復元する
-            </button>
-          </div>
-        </div>
+        <p class="text-sm text-slate-600">ローカルストレージ of data-management or initial resets.</p>
       </div>
 
       <div class="bg-white p-5 rounded-2xl border border-red-100 shadow-sm space-y-4">
@@ -1065,10 +1029,7 @@
             let prodHeaderHtml = `
               <button onclick="toggleAccordion('${prodId}')" class="w-full px-3 py-2 flex justify-between items-center text-xs font-bold text-slate-650 hover:bg-slate-100 focus:outline-none">
                 <span>${prodName}</span>
-                <div class="flex items-center space-x-2 text-[9px] text-slate-400 font-normal">
-                  <button onclick="deleteEntireProductGroup(event, '${prodName}', '${cat}')" class="text-rose-500 hover:text-rose-700 font-bold text-[9px] px-1.5 py-0.5 rounded border border-rose-200 bg-rose-50/50 mr-1">
-                    全消去
-                  </button>
+                <div class="flex items-center space-x-1 text-[9px] text-slate-400 font-normal">
                   <span>登録数: ${batches.length}件</span>
                   <svg id="chevron-${prodId}" class="w-3 h-3 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
@@ -1124,26 +1085,6 @@
       });
     }
 
-    // Delete Entire Product Group (New Feature)
-    function deleteEntireProductGroup(event, productName, category) {
-      event.stopPropagation(); // Stop collapsing drawer
-      const confirmMsg = `「${productName}」に関連する登録スケジュールを全て一括削除します。よろしいですか？`;
-      if (!confirm(confirmMsg)) return;
-
-      activeInventory = activeInventory.filter(item => {
-        if (category === "パン") {
-          return !(item.productName === productName && (item.type === 'bread' || !item.type));
-        } else {
-          return !(item.productName === productName && item.type === 'discounted' && item.category === category);
-        }
-      });
-
-      localStorage.setItem(STORAGE_KEY_INVENTORY, JSON.stringify(activeInventory));
-      renderRegisterScreen();
-      loadInventory();
-      alert(`${productName}の全ての期限を削除しました。`);
-    }
-
     // --- 11. Unified Wizard Flow Engine (Deduplicated Pan + Discounted items) ---
     const dashboardView = document.getElementById('today-dashboard');
     const wizardView = document.getElementById('today-wizard');
@@ -1185,7 +1126,7 @@
       renderWizardStep();
     });
 
-    // Helper to calculate exact mandated action state (Corrected Move Windows) [1]
+    // Helper to calculate exact mandated action state (Corrected Move Windows)
     function resolveActionState(currentStep) {
       if (currentStep.type === 'bread') {
         const matchingStocks = activeInventory.filter(item => item.productId === currentStep.productId && item.status === 'active' && item.type === 'bread');
@@ -1625,16 +1566,15 @@
         if (actionRecord) {
           const isFinished = (actionRecord.action === '廃棄' || actionRecord.action === '品切れ');
           if (!isFinished) {
-            // Check for Auto-promotion of 25% discounted items to 50% upon Backroom Move verification
-            let finalDiscountRate = inv.discountRate;
-            if (inv.type === 'discounted' && inv.discountRate === '25' && actionRecord.action === 'バックヤード移動') {
-              finalDiscountRate = '50'; // Upgraded!
+            let updatedRate = inv.discountRate;
+            // Auto-upgrade 25% off items to 50% off once moved to the backroom
+            if (inv.type === 'discounted' && inv.discountRate === "25" && actionRecord.action === 'バックヤード移動') {
+              updatedRate = "50";
             }
-
             updatedInventory.push({
               ...inv,
               currentQty: actionRecord.newQty, 
-              discountRate: finalDiscountRate, // Preserve or promote rate
+              discountRate: updatedRate,
               status: 'active'
             });
           }
@@ -2068,61 +2008,14 @@
       renderRegisterActiveList();
     }
 
-    // --- 17. Backup & Recovery Data Migration Tools (Standalone Bookmark helper) ---
-    function exportBackupData() {
-      const inventory = localStorage.getItem(STORAGE_KEY_INVENTORY) || "[]";
-      const history = localStorage.getItem(STORAGE_KEY_HISTORY) || "[]";
-      
-      const payloadObj = {
-        inventory: JSON.parse(inventory),
-        history: JSON.parse(history),
-        exportedAt: Date.now()
-      };
+    // Explicitly bind components to the global window scope to guarantee responsiveness across devices
+    window.deleteStockItem = deleteStockItem;
+    window.openEditExpiryModal = openEditExpiryModal;
+    window.submitEditExpiry = submitEditExpiry;
+    window.closeEditExpiryModal = closeEditExpiryModal;
+    window.toggleAccordion = toggleAccordion;
 
-      const payloadStr = btoa(unescape(encodeURIComponent(JSON.stringify(payloadObj))));
-      
-      // Attempt clip write
-      navigator.clipboard.writeText(payloadStr).then(() => {
-        alert("バックアップコードを生成し、クリップボードにコピーしました！\nホーム画面のブックマークアプリを開き、インポート入力ボックスに貼り付けて復元してください。");
-      }).catch(err => {
-        // Fallback display
-        prompt("自動コピーに失敗しました。下のコードを手動でコピーして移行してください：", payloadStr);
-      });
-    }
-
-    function importBackupData() {
-      const textInput = document.getElementById('import-data-textarea');
-      const payloadStr = textInput.value.trim();
-
-      if (!payloadStr) {
-        alert("復元コードを入力してください。");
-        return;
-      }
-
-      try {
-        const decoded = decodeURIComponent(escape(atob(payloadStr)));
-        const parsed = JSON.parse(decoded);
-
-        if (!parsed.inventory || !parsed.history) {
-          throw new Error("無効なフォーマット形式です。");
-        }
-
-        if (confirm("データを復元しますか？現在のデータはすべて上書きされます。")) {
-          localStorage.setItem(STORAGE_KEY_INVENTORY, JSON.stringify(parsed.inventory));
-          localStorage.setItem(STORAGE_KEY_HISTORY, JSON.stringify(parsed.history));
-          
-          alert("データの復元が完了しました。最新のデータを表示します。");
-          textInput.value = "";
-          loadInventory();
-          switchScreen('today');
-        }
-      } catch(e) {
-        alert("データの展開に失敗しました。コピーしたコードが正しいか確認してください。");
-      }
-    }
-
-
-    // --- 18. Application Startup ---
+    // --- 17. Application Startup ---
     window.addEventListener('DOMContentLoaded', () => {
       initDataStore();
       loadInventory();
