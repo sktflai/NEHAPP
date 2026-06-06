@@ -336,7 +336,7 @@
           <div class="w-64 flex flex-col space-y-1">
             <label class="block text-xs font-bold text-slate-500">現在の値下げ区分</label>
             <select id="reg-disc-rate" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-1 focus:ring-primary focus:border-primary">
-              <option value="25">25%引 (期限9日前移行)</option>
+              <option value="25">25%引 (期限10日前移行)</option>
               <option value="50">50%引 (期限2日前廃棄)</option>
             </select>
           </div>
@@ -451,7 +451,7 @@
 
       <div class="bg-white p-5 rounded-2xl border border-red-100 shadow-sm space-y-4">
         <h3 class="text-sm font-bold text-red-600 tracking-wider uppercase">危険ゾーン</h3>
-        <p class="text-xs text-slate-500 leading-relaxed">全ての履歴データ、在庫データ、製品設定をリセットし、初期状態に戻します。この操作は取り消せません。</p>
+        <p class="text-xs text-slate-500 leading-relaxed">全ての履歴データ、在庫データ、製品設定をリセットし、初期状態に戻します。この操作は取り消せるません。</p>
         <button id="reset-data-btn" class="w-full bg-red-50 hover:bg-red-100 text-red-600 font-bold py-3 px-4 rounded-xl transition-colors text-sm border border-red-200">
           データを初期化する
         </button>
@@ -1062,7 +1062,7 @@
               // Embedded Edit/Delete Actions inside hierarchical rows
               batchRow.innerHTML = `
                 <div class="flex items-center space-x-1.5 max-w-[175px] truncate">
-                  <span class="font-medium text-slate-600">${labelText}</span>
+                  <span class="font-semibold text-slate-600">${labelText}</span>
                   <span class="text-[8px] px-1.5 py-0.5 rounded-full ${badgeColor} inline-block shrink-0">${days <= 0 ? '切' : 'あと' + days + '日'}</span>
                 </div>
                 <div class="flex items-center space-x-1 shrink-0">
@@ -2009,7 +2009,15 @@
     }
 
     // Explicitly bind components to the global window scope to guarantee responsiveness across devices
-    window.deleteStockItem = deleteStockItem;
+    window.deleteStockItem = function(id) {
+      if (!confirm("この期限スケジュールデータを削除してよろしいですか？")) return;
+      let currentInv = JSON.parse(localStorage.getItem(STORAGE_KEY_INVENTORY)) || [];
+      currentInv = currentInv.filter(item => item.id !== id);
+      localStorage.setItem(STORAGE_KEY_INVENTORY, JSON.stringify(currentInv));
+      activeInventory = currentInv;
+      renderRegisterScreen();
+      loadInventory();
+    };
     window.openEditExpiryModal = openEditExpiryModal;
     window.submitEditExpiry = submitEditExpiry;
     window.closeEditExpiryModal = closeEditExpiryModal;
