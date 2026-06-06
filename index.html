@@ -7,7 +7,7 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    // Extend Tailwind to support the custom brand theme color #E4007F
+    // Extend Tailwind to support the brand theme color #E4007F
     tailwind.config = {
       theme: {
         extend: {
@@ -88,7 +88,7 @@
       <!-- Notification Dropdown Menu -->
       <div id="noti-dropdown" class="hidden absolute right-0 top-11 bg-white border border-slate-200 rounded-2xl shadow-xl w-72 z-50 p-4 space-y-3">
         <div class="border-b border-slate-100 pb-2">
-          <h4 class="text-xs font-bold text-slate-800">期限警告 (3日以内)</h4>
+          <h4 class="text-xs font-bold text-slate-800">期限警告</h4>
           <p class="text-[10px] text-slate-400 mt-0.5">対応が必要なスケジュール対象一覧</p>
         </div>
         <div id="noti-list" class="space-y-2 max-h-48 overflow-y-auto text-xs">
@@ -191,7 +191,7 @@
         </div>
       </div>
 
-      <!-- Interactive Flow View (Wizard checking all standard pan + discounted items) -->
+      <!-- Interactive Flow View -->
       <div id="today-wizard" class="hidden space-y-4">
         <!-- Progress Bar -->
         <div class="bg-white p-3 rounded-xl border border-slate-200 flex items-center justify-between text-xs font-semibold text-slate-500 shadow-sm">
@@ -288,14 +288,13 @@
 
     </section>
 
-    <!-- SCREEN: Stock Registration (Form 1 for standard bread + Form 2 for discounted items) -->
+    <!-- SCREEN: Stock Registration -->
     <section id="screen-register" class="screen-panel hidden space-y-4">
       
       <!-- FORM 1: Bread Expiry Registration -->
       <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
         <h3 class="text-sm font-bold text-slate-800 text-center">新規パン期限登録</h3>
         
-        <!-- Symmetrical and perfectly aligned centered form layout -->
         <div class="flex flex-col items-center space-y-4">
           <div class="w-64 flex flex-col space-y-1">
             <label class="block text-xs font-bold text-slate-500">パンの種類</label>
@@ -311,14 +310,13 @@
         </div>
       </div>
 
-      <!-- FORM 2: Already Discounted Stocks (Non-Pan Category) -->
+      <!-- FORM 2: Already Discounted Stocks -->
       <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
         <h3 class="text-sm font-bold text-slate-800 text-center">値下げ商品の新規登録</h3>
         <p class="text-[10px] text-slate-400 text-center max-w-xs mx-auto">
           すでに値下げ（25%引または50%引）されている一般食品や飲料等の期限を登録します。
         </p>
 
-        <!-- Symmetrical alignment -->
         <div class="flex flex-col items-center space-y-3.5">
           <div class="w-64 flex flex-col space-y-1">
             <label class="block text-xs font-bold text-slate-500">カスタム商品名</label>
@@ -367,7 +365,7 @@
         <div class="flex items-center justify-between px-1">
           <button onclick="shiftMonth(-1)" class="p-2 text-slate-600 hover:bg-slate-100 rounded-lg">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-7="7" d="M15 19l-7-7 7-7"></path>
             </svg>
           </button>
           <h3 id="calendar-month-year" class="font-bold text-slate-800 tracking-wider">2026年 6月</h3>
@@ -409,7 +407,7 @@
       </div>
     </section>
 
-    <!-- SCREEN: History View (Short Aligned Date Range Selector) -->
+    <!-- SCREEN: History View -->
     <section id="screen-history" class="screen-panel hidden space-y-4">
       <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
         <div class="flex items-center justify-between">
@@ -446,12 +444,45 @@
     <section id="screen-settings" class="screen-panel hidden space-y-4">
       <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
         <h2 class="text-lg font-bold text-slate-800">アプリ設定</h2>
-        <p class="text-sm text-slate-600">ローカルストレージ of data-management or initial resets.</p>
+        <p class="text-sm text-slate-650">データバックアップ、移行ツール、およびデータ初期化を実行します。</p>
       </div>
 
+      <!-- BackUp and Migration Panel (Tweak Implemented) -->
+      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+        <h3 class="text-sm font-bold text-slate-800">データバックアップ・移行ツール</h3>
+        <p class="text-xs text-slate-500 leading-relaxed">
+          iPhoneやAndroidの「ホーム画面に追加」を行うと、通常のSafari/Chromeブラウザとは保存エリアが分離されるためデータが引き継がれません。ここでデータを手動移行（移行）できます。
+        </p>
+
+        <div class="space-y-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-400 mb-1">バックアップデータ (JSON)</label>
+            <textarea id="settings-backup-area" readonly class="w-full h-24 bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs font-mono select-all focus:outline-none" style="-webkit-user-select: text; user-select: text;"></textarea>
+          </div>
+          
+          <div class="flex space-x-2">
+            <button onclick="exportBackupData()" class="flex-1 bg-primary text-white font-bold py-2.5 rounded-xl text-xs shadow-sm hover:bg-primary-600 transition-colors">
+              データ出力
+            </button>
+            <button onclick="copyBackupText()" class="flex-1 bg-slate-100 border border-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs hover:bg-slate-200 transition-colors">
+              コピーする
+            </button>
+          </div>
+
+          <div class="border-t border-slate-100 pt-3">
+            <label class="block text-xs font-bold text-slate-400 mb-1">インポートエリア</label>
+            <textarea id="settings-import-area" placeholder="コピーしたJSONテキストをここに貼り付けます" class="w-full h-20 bg-white border border-slate-200 rounded-lg p-2 text-xs focus:outline-none" style="-webkit-user-select: text; user-select: text;"></textarea>
+            <button onclick="importBackupData()" class="w-full bg-slate-800 text-white font-bold py-2.5 rounded-xl text-xs shadow-sm hover:bg-slate-900 transition-colors mt-2">
+              データを復元（インポート）
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Danger Zone Card -->
       <div class="bg-white p-5 rounded-2xl border border-red-100 shadow-sm space-y-4">
         <h3 class="text-sm font-bold text-red-600 tracking-wider uppercase">危険ゾーン</h3>
-        <p class="text-xs text-slate-500 leading-relaxed">全ての履歴データ、在庫データ、製品設定をリセットし、初期状態に戻します。この操作は取り消せるません。</p>
+        <p class="text-xs text-slate-500 leading-relaxed">全ての履歴データ、在庫データ、製品設定をリセットし、初期状態に戻します。この操作は取り消せません。</p>
         <button id="reset-data-btn" class="w-full bg-red-50 hover:bg-red-100 text-red-600 font-bold py-3 px-4 rounded-xl transition-colors text-sm border border-red-200">
           データを初期化する
         </button>
@@ -552,8 +583,8 @@
         { id: "mock-2", productId: 3, productName: "シナモン", expiryDate: getFormattedDate(5), status: 'active', currentQty: null, type: 'bread' }, // 5 days left
         { id: "mock-3", productId: 7, productName: "塩バター", expiryDate: getFormattedDate(0), status: 'active', currentQty: null, type: 'bread' }, // 0 days left
         
-        // Mock non-pan already discounted product (25% off expiring in 9 days)
-        { id: "mock-disc-1", productName: "おつまみ豆菓子", category: "お菓子", discountRate: "25", expiryDate: getFormattedDate(9), status: 'active', currentQty: null, type: 'discounted' },
+        // Mock non-pan already discounted product (25% off expiring in 10 days - triggers move alerts on 6/8)
+        { id: "mock-disc-1", productName: "おつまみ豆菓子", category: "お菓子", discountRate: "25", expiryDate: getFormattedDate(10), status: 'active', currentQty: null, type: 'discounted' },
         // Mock non-pan already discounted product (50% off expiring in 2 days)
         { id: "mock-disc-2", productName: "有機ココア飲料", category: "飲料", discountRate: "50", expiryDate: getFormattedDate(2), status: 'active', currentQty: null, type: 'discounted' }
       ];
@@ -664,6 +695,9 @@
         loadHistoryScreen();
       } else if (screenId === 'register') {
         renderRegisterScreen();
+      } else if (screenId === 'settings') {
+        document.getElementById('settings-backup-area').value = '';
+        document.getElementById('settings-import-area').value = '';
       }
 
       closeSidebar();
@@ -2008,6 +2042,62 @@
       renderRegisterActiveList();
     }
 
+    // --- 17. Backup & Restore Data Engine (Tweak Implemented) ---
+    function exportBackupData() {
+      const db = {
+        inventory: JSON.parse(localStorage.getItem(STORAGE_KEY_INVENTORY)) || [],
+        history: JSON.parse(localStorage.getItem(STORAGE_KEY_HISTORY)) || [],
+        products: JSON.parse(localStorage.getItem(STORAGE_KEY_PRODUCTS)) || []
+      };
+
+      const encryptedText = btoa(unescape(encodeURIComponent(JSON.stringify(db))));
+      document.getElementById('settings-backup-area').value = encryptedText;
+      alert("バックアップテキストを出力しました。下部のコピーボタンで保存してください。");
+    }
+
+    function copyBackupText() {
+      const area = document.getElementById('settings-backup-area');
+      if (!area.value) {
+        alert("先に出力（データ出力ボタン）を実行してください。");
+        return;
+      }
+      area.select();
+      area.setSelectionRange(0, 99999); // Safe selector for iOS
+      document.execCommand("copy");
+      alert("クリップボードにバックアップコードをコピーしました。安全な場所に保存してください。");
+    }
+
+    function importBackupData() {
+      const pastedCode = document.getElementById('settings-import-area').value.trim();
+      if (!pastedCode) {
+        alert("インポート用のコードテキストを貼り付けてください。");
+        return;
+      }
+
+      if (!confirm("既存のすべての期限情報と履歴データが上書きされます。よろしいですか？")) {
+        return;
+      }
+
+      try {
+        const decryptedStr = decodeURIComponent(escape(atob(pastedCode)));
+        const importedData = JSON.parse(decryptedStr);
+
+        if (importedData && importedData.inventory && importedData.history) {
+          localStorage.setItem(STORAGE_KEY_INVENTORY, JSON.stringify(importedData.inventory));
+          localStorage.setItem(STORAGE_KEY_HISTORY, JSON.stringify(importedData.history));
+          if (importedData.products) {
+            localStorage.setItem(STORAGE_KEY_PRODUCTS, JSON.stringify(importedData.products));
+          }
+          alert("データの引き継ぎに成功しました。アプリを再読み込みします。");
+          window.location.reload();
+        } else {
+          alert("データ構造が壊れているか、無効なコードです。");
+        }
+      } catch (err) {
+        alert("インポートに失敗しました。コードを正しくコピーできているかご確認ください。");
+      }
+    }
+
     // Explicitly bind components to the global window scope to guarantee responsiveness across devices
     window.deleteStockItem = function(id) {
       if (!confirm("この期限スケジュールデータを削除してよろしいですか？")) return;
@@ -2022,8 +2112,11 @@
     window.submitEditExpiry = submitEditExpiry;
     window.closeEditExpiryModal = closeEditExpiryModal;
     window.toggleAccordion = toggleAccordion;
+    window.exportBackupData = exportBackupData;
+    window.copyBackupText = copyBackupText;
+    window.importBackupData = importBackupData;
 
-    // --- 17. Application Startup ---
+    // --- 18. Application Startup ---
     window.addEventListener('DOMContentLoaded', () => {
       initDataStore();
       loadInventory();
